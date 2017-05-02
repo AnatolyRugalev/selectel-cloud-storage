@@ -2,8 +2,8 @@
 
 namespace ArgentCrusade\Selectel\CloudStorage\Traits;
 
+use GuzzleHttp\Message\ResponseInterface;
 use InvalidArgumentException;
-use Psr\Http\Message\ResponseInterface;
 use ArgentCrusade\Selectel\CloudStorage\Exceptions\ApiRequestFailedException;
 
 trait MetaData
@@ -42,7 +42,7 @@ trait MetaData
     /**
      * Extracts meta data from Object's response headers.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
      * @return array
      */
@@ -57,7 +57,7 @@ trait MetaData
         $metaData = [];
 
         foreach ($headers as $header) {
-            $metaData[$header] = $response->getHeaderLine($header);
+            $metaData[$header] = $response->getHeader($header);
         }
 
         return $metaData;
@@ -66,7 +66,7 @@ trait MetaData
     /**
      * Filters meta headers from response.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
      * @return array
      */
