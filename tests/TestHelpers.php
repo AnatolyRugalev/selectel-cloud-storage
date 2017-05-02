@@ -30,6 +30,8 @@ class TestHelpers
 
     public static function toResponse($body, $status = 200, array $headers = [])
     {
-        return new Response($status, $headers, (!is_string($body) ? json_encode($body) : $body));
+        $stream = new \GuzzleHttp\Stream\BufferStream();
+        $stream->write((!is_string($body) ? json_encode($body) : $body));
+        return new Response($status, $headers, $stream);
     }
 }
