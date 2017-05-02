@@ -3,6 +3,7 @@
 namespace ArgentCrusade\Selectel\CloudStorage\Contracts\Api;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\ResponseInterface;
 
 interface ApiClientContract
 {
@@ -50,7 +51,7 @@ interface ApiClientContract
      * @param string $url
      * @param array  $params = []
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function request($method, $url, array $params = []);
 }

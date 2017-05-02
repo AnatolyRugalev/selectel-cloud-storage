@@ -2,6 +2,8 @@
 
 namespace ArgentCrusade\Selectel\CloudStorage\Contracts;
 
+use GuzzleHttp\Stream\StreamInterface;
+
 interface FileContract
 {
     /**
@@ -95,7 +97,7 @@ interface FileContract
      *
      * @param bool $psr7Stream = false
      *
-     * @return resource|\Psr\Http\Message\StreamInterface
+     * @return resource|StreamInterface
      */
     public function readStream($psr7Stream = false);
 

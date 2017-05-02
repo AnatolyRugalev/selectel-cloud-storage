@@ -2,10 +2,11 @@
 
 namespace ArgentCrusade\Selectel\CloudStorage;
 
+use GuzzleHttp\Stream\GuzzleStreamWrapper;
+use GuzzleHttp\Stream\StreamInterface;
 use LogicException;
 use JsonSerializable;
 use InvalidArgumentException;
-use GuzzleHttp\Psr7\StreamWrapper;
 use ArgentCrusade\Selectel\CloudStorage\Contracts\FileContract;
 use ArgentCrusade\Selectel\CloudStorage\Contracts\Api\ApiClientContract;
 use ArgentCrusade\Selectel\CloudStorage\Exceptions\ApiRequestFailedException;
@@ -212,7 +213,7 @@ class File implements FileContract, JsonSerializable
      *
      * @param bool $psr7Stream = false
      *
-     * @return resource|\Psr\Http\Message\StreamInterface
+     * @return resource|StreamInterface
      */
     public function readStream($psr7Stream = false)
     {
@@ -222,7 +223,7 @@ class File implements FileContract, JsonSerializable
             return $response->getBody();
         }
 
-        return StreamWrapper::getResource($response->getBody());
+        return GuzzleStreamWrapper::getResource($response->getBody());
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 use ArgentCrusade\Selectel\CloudStorage\Api\ApiClient;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Message\Response;
 
 class TestHelpers
 {
