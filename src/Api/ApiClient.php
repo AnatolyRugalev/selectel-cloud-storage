@@ -2,6 +2,7 @@
 
 namespace ArgentCrusade\Selectel\CloudStorage\Api;
 
+use GuzzleHttp\Message\ResponseInterface;
 use RuntimeException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -145,8 +146,8 @@ class ApiClient implements ApiClientContract
             throw new RuntimeException('Storage URL is missing.', 500);
         }
 
-        $this->token = $response->getHeaderLine('X-Auth-Token');
-        $this->storageUrl = $response->getHeaderLine('X-Storage-Url');
+        $this->token = $response->getHeader('X-Auth-Token');
+        $this->storageUrl = $response->getHeader('X-Storage-Url');
     }
 
     /**
@@ -154,14 +155,14 @@ class ApiClient implements ApiClientContract
      *
      * @throws \ArgentCrusade\Selectel\CloudStorage\Exceptions\AuthenticationFailedException
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function authenticationResponse()
     {
         $client = new Client();
 
         try {
-            $response = $client->request('GET', static::AUTH_URL, [
+            $response = $client->get(static::AUTH_URL, [
                 'headers' => [
                     'X-Auth-User' => $this->username,
                     'X-Auth-Key' => $this->password,
@@ -181,7 +182,7 @@ class ApiClient implements ApiClientContract
      * @param string $url
      * @param array  $params = []
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function request($method, $url, array $params = [])
     {
@@ -196,7 +197,8 @@ class ApiClient implements ApiClientContract
         $params['query']['format'] = 'json';
 
         try {
-            $response = $this->getHttpClient()->request($method, $url, $params);
+            $request = $this->getHttpClient()->createRequest($method, $url, $params);
+            $response = $this->getHttpClient()->send($request);
         } catch (RequestException $e) {
             return $e->getResponse();
         }
