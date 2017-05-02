@@ -32,7 +32,7 @@ class FileUploader implements FileUploaderContract
             throw new UploadFailedException('Unable to upload file.', $response->getStatusCode());
         }
 
-        return $response->getHeaderLine('ETag');
+        return $response->getHeader('ETag');
     }
 
     /**

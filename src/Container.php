@@ -116,11 +116,11 @@ class Container implements ContainerContract, FilesTransformerContract, Countabl
         // we'll try to find any container Meta.
 
         $this->data = [
-            'type' => $response->getHeaderLine('X-Container-Meta-Type'),
-            'count' => intval($response->getHeaderLine('X-Container-Object-Count')),
-            'bytes' => intval($response->getHeaderLine('X-Container-Bytes-Used')),
-            'rx_bytes' => intval($response->getHeaderLine('X-Received-Bytes')),
-            'tx_bytes' => intval($response->getHeaderLine('X-Transfered-Bytes')),
+            'type' => $response->getHeader('X-Container-Meta-Type'),
+            'count' => intval($response->getHeader('X-Container-Object-Count')),
+            'bytes' => intval($response->getHeader('X-Container-Bytes-Used')),
+            'rx_bytes' => intval($response->getHeader('X-Received-Bytes')),
+            'tx_bytes' => intval($response->getHeader('X-Transfered-Bytes')),
             'meta' => $this->extractMetaData($response),
         ];
     }
@@ -339,7 +339,7 @@ class Container implements ContainerContract, FilesTransformerContract, Countabl
             throw new ApiRequestFailedException('Unable to create directory "'.$name.'".', $response->getStatusCode());
         }
 
-        return $response->getHeaderLine('ETag');
+        return $response->getHeader('ETag');
     }
 
     /**
