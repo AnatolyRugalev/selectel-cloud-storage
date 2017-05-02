@@ -200,7 +200,10 @@ class ApiClient implements ApiClientContract
             $request = $this->getHttpClient()->createRequest($method, $url, $params);
             $response = $this->getHttpClient()->send($request);
         } catch (RequestException $e) {
-            return $e->getResponse();
+            if (($response = $e->getResponse()) !== null) {
+                return $response;
+            }
+            throw $e;
         }
 
         return $response;
