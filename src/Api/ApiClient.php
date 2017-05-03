@@ -88,8 +88,10 @@ class ApiClient implements ApiClientContract
 
         return $this->httpClient = new Client([
             'base_url' => $this->storageUrl(),
-            'headers' => [
-                'X-Auth-Token' => $this->token(),
+            'defaults' => [
+                'headers' => [
+                    'X-Auth-Token' => $this->token(),
+                ],
             ],
         ]);
     }
